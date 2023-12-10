@@ -17,17 +17,25 @@ class BaseCalendar[T](ABC):
         in the calendar. Can be None if the calendar has not yet been downloaded once
     latest_upload : Optional[datetime]
         Time for which the data from the reserved_slots attribute is relevant
-
-    Methods
-    -------
-    actualize()
-        Updates the calendar (reserved_slots)
-        by downloading or synchronizing it with a remote service
     """
 
     def __init__(self):
+        """
+        Inits BaseCalendar instance variables with None values
+        """
         self.reserved_slots: Optional[List[CalendarItem]] = None
         self.latest_upload: Optional[datetime] = None
+
+    def actualize(self) -> None:
+        """
+        Updates the calendar (occupied_slots)
+        by downloading or synchronizing it with a remote service
+        """
+        latest_update = self._latest_update()
+        if not self.latest_upload or latest_update > self.latest_upload:
+            calendar = self._upload()
+            self.reserved_slots = self._standardize(calendar)
+            self.latest_upload = latest_update
 
     @abstractmethod
     def _upload(self) -> T:
@@ -69,15 +77,3 @@ class BaseCalendar[T](ABC):
             Time of last update
         """
         ...
-
-    def actualize(self) -> None:
-        """
-        Updates the calendar (occupied_slots)
-        by downloading or synchronizing it with a remote service
-        """
-
-        latest_update = self._latest_update()
-        if not self.latest_upload or latest_update > self.latest_upload:
-            calendar = self._upload()
-            self.reserved_slots = self._standardize(calendar)
-            self.latest_upload = latest_update
