@@ -1,37 +1,45 @@
-from abc import ABC
 from datetime import datetime
-from typing import List, Optional
+from typing import List, Optional, Set
 
-from ..schedules.base_calendar import BaseCalendar
+from .member_type import MemberType
 from ..schedules.calendar_item import CalendarItem
+from ..schedules.calendar_type import CalendarType
 
 
-class BaseMember(ABC):
+class EventMember:
     """
-    An abstract base class for implementing classes of
-    event participants to store and retrieve their schedules
+    Class to store and retrieve member's schedule
 
     Attributes
     ----------
+    member_type : MemberType
+        Member type
     name : str
         Member name
     calendars : List[BaseCalendar]
         List of member calendars that inherit from the abstract BaseCalendar class
     """
 
-    def __init__(self, name: str, calendars: List[BaseCalendar]):
+    def __init__(
+        self, member_type: MemberType, name: str, calendar_types: Set[CalendarType]
+    ):
         """
-        Inits BaseMember class with member's name and calendars
+        Inits EventMember class with member's type, name and calendars
 
         Parameters
         ----------
+        member_type : MemberType
+            Member type
         name : str
             Member name
-        calendars : List[BaseCalendar]
-            List of member calendars that inherit from the abstract BaseCalendar class
+        calendar_types : Set[CalendarType]
+            Multiple types of calendars used by this member
         """
+        self.member_type = member_type
         self.name = name
-        self.calendars = calendars
+        self.calendars = [
+            calendar.value(name, member_type) for calendar in calendar_types
+        ]
 
     def actualize_schedule(self) -> None:
         """

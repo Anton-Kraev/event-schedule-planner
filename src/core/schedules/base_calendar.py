@@ -3,6 +3,7 @@ from datetime import datetime
 from typing import List, Optional
 
 from .calendar_item import CalendarItem
+from ..members.member_type import MemberType
 
 
 class BaseCalendar[T](ABC):
@@ -12,6 +13,10 @@ class BaseCalendar[T](ABC):
 
     Attributes
     ----------
+    owner_type : MemberType
+        Type of the calendar owner required to receive the calendar
+    owner_name : str
+        Name of the calendar owner required to receive the calendar
     reserved_slots : Optional[List[CalendarItem]]
         A list of CalendarItems representing events or reservations that occupy time slots
         in the calendar. Can be None if the calendar has not yet been downloaded once
@@ -19,10 +24,19 @@ class BaseCalendar[T](ABC):
         Time for which the data from the reserved_slots attribute is relevant
     """
 
-    def __init__(self):
+    def __init__(self, owner_name: str, owner_type: MemberType):
         """
-        Inits BaseCalendar instance variables with None values
+        Inits BaseCalendar with owner info and sets None in the variables with calendar information
+
+        Parameters
+        ----------
+        owner_name : str
+            Owner name
+        owner_type : str
+            Owner type
         """
+        self.owner_name = owner_name
+        self.owner_type = owner_type
         self.reserved_slots: Optional[List[CalendarItem]] = None
         self.latest_upload: Optional[datetime] = None
 
