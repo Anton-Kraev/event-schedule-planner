@@ -7,18 +7,12 @@ from ..schedules.calendar_item import CalendarItem
 
 
 class BaseEvent(ABC):
-    def __init__(
-        self,
-        name: str,
-        members: List[EventMember],
-        params: Any = None,
-    ):
+    def __init__(self, name: str, members: List[EventMember]):
         self.name = name
         self.members = members
-        self.params = params
 
     @abstractmethod
-    def check_time_period(self) -> Any:
+    def check_time_slot(self, params: Any) -> Any:
         ...
 
     @property
