@@ -4,12 +4,15 @@ from ..single_event.single_event_params import SingleEventParams
 
 
 class SingleEventChecker(BaseEvent):
-    def check_time_slot(self, params: SingleEventParams) -> SingleEventCheckResult:
+    async def check_time_slot(
+        self, params: SingleEventParams
+    ) -> SingleEventCheckResult:
         desired_start_time = params.start_time
         desired_end_time = params.end_time
 
         overlaps = {}
-        for member, schedule in self.schedules.items():
+        schedules = await self.schedules
+        for member, schedule in schedules.items():
             member_overlaps = [
                 event
                 for event in schedule

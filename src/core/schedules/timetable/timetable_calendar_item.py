@@ -1,13 +1,10 @@
 from dataclasses import dataclass
 from datetime import datetime
 
-from .calendar_type import CalendarType
-
 
 @dataclass
-class CalendarItem:
+class TimetableCalendarItem:
     start_time: datetime
     end_time: datetime
     location: str
     description: str
-    source: CalendarType
