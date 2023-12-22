@@ -1,5 +1,4 @@
-from datetime import datetime
-from typing import List, Optional, Set
+from typing import List, Set
 
 from .member_type import MemberType
 from ..schedules.calendar_item import CalendarItem
@@ -41,30 +40,11 @@ class EventMember:
             calendar.value(name, member_type) for calendar in calendar_types
         ]
 
-    def actualize_schedule(self) -> None:
-        """
-        Actualize all member calendars
-        """
-        for calendar in self.calendars:
-            calendar.actualize()
-
     @property
-    def schedule(self) -> List[CalendarItem]:
+    async def schedule(self) -> List[CalendarItem]:
         """
         All calendars combined into one
         """
-        reserved_slots = [
-            calendar.reserved_slots
-            for calendar in self.calendars
-            if calendar.reserved_slots is not None
-        ]
-        return sum(reserved_slots, [])
-
-    @property
-    def latest_upload(self) -> Optional[datetime]:
-        """
-        The oldest update time among all calendars,
-        or None if one of calendars has never been uploaded
-        """
-        latest_times = [calendar.latest_upload for calendar in self.calendars]
-        return None if None in latest_times else min(latest_times)  # pyright: ignore
+        return sum(
+            [await calendar.get_reserved_slots() for calendar in self.calendars], []
+        )

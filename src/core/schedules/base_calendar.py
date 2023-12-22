@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
-from datetime import datetime
-from typing import List, Optional
+from typing import List
 
 from .calendar_item import CalendarItem
 from ..members.member_type import MemberType
@@ -20,8 +19,6 @@ class BaseCalendar[T](ABC):
     reserved_slots : Optional[List[CalendarItem]]
         A list of CalendarItems representing events or reservations that occupy time slots
         in the calendar. Can be None if the calendar has not yet been downloaded once
-    latest_upload : Optional[datetime]
-        Time for which the data from the reserved_slots attribute is relevant
     """
 
     def __init__(self, owner_name: str, owner_type: MemberType):
@@ -37,22 +34,25 @@ class BaseCalendar[T](ABC):
         """
         self.owner_name = owner_name
         self.owner_type = owner_type
-        self.reserved_slots: Optional[List[CalendarItem]] = None
-        self.latest_upload: Optional[datetime] = None
+        self.reserved_slots: List[CalendarItem] = []
 
-    def actualize(self) -> None:
+    async def get_reserved_slots(self) -> List[CalendarItem]:
         """
         Updates the calendar (occupied_slots)
         by downloading or synchronizing it with a remote service
+
+        Returns
+        -------
+        List[CalendarItem]
+            Calendar reserved slots in the uniform view
         """
-        latest_update = self._latest_update()
-        if not self.latest_upload or latest_update > self.latest_upload:
-            calendar = self._upload()
+        calendar = await self._upload()
+        if calendar:
             self.reserved_slots = self._standardize(calendar)
-            self.latest_upload = latest_update
+        return self.reserved_slots
 
     @abstractmethod
-    def _upload(self) -> T:
+    async def _upload(self) -> T:
         """
         Uploads or synchronizes the calendar with a remote service
 
@@ -77,17 +77,5 @@ class BaseCalendar[T](ABC):
         -------
         List[CalendarItem]
             Calendar in the uniform view
-        """
-        ...
-
-    @abstractmethod
-    def _latest_update(self) -> datetime:
-        """
-        Gets the time of the last update of the external calendar
-
-        Returns
-        -------
-        datetime
-            Time of last update
         """
         ...
