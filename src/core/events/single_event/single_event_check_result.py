@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Dict, List, Optional
 
 from ...event_options.location import LocationCheckResult
-from ...schedules.calendar_item import CalendarItem
+from ...schedules import CalendarItem
 
 
 @dataclass

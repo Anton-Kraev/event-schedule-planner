@@ -1,6 +1,5 @@
-from .single_event_check_result import SingleEventCheckResult
-from ..base_event import BaseEvent
-from ..single_event.single_event_params import SingleEventParams
+from . import SingleEventParams, SingleEventCheckResult
+from .. import BaseEvent
 
 
 class SingleEventChecker(BaseEvent):

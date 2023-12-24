@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from datetime import datetime
 
-from .calendar_type import CalendarType
+from . import CalendarType
 
 
 @dataclass

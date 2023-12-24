@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
 from typing import List, Dict, Any
 
-from ..members.event_member import EventMember
-from ..schedules.calendar_item import CalendarItem
+from ..members import EventMember
+from ..schedules import CalendarItem
 
 
 class BaseEvent(ABC):

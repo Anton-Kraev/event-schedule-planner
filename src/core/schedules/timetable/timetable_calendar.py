@@ -3,11 +3,9 @@ from typing import List
 from httpx import AsyncClient, codes
 
 from config import TT_API_BASE_PATH
-from ..base_calendar import BaseCalendar
-from ..calendar_item import CalendarItem
-from .timetable_calendar_item import TimetableCalendarItem
-from ..calendar_type import CalendarType
-from ...members.member_type import MemberType
+from . import TimetableCalendarItem
+from .. import CalendarType, CalendarItem, BaseCalendar
+from ...members import MemberType
 
 
 class TimetableCalendar(BaseCalendar):

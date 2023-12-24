@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
 from typing import List
 
-from .calendar_item import CalendarItem
-from ..members.member_type import MemberType
+from . import CalendarItem
+from ..members import MemberType
 
 
 class BaseCalendar[T](ABC):

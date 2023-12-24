@@ -1,8 +1,7 @@
 from typing import List, Set
 
-from .member_type import MemberType
-from ..schedules.calendar_item import CalendarItem
-from ..schedules.calendar_type import CalendarType
+from . import MemberType
+from ..schedules import CalendarItem, CalendarType
 
 
 class EventMember:
