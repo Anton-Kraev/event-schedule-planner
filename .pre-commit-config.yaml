@@ -7,6 +7,6 @@ repos:
       - id: ruff-format
 
   - repo: https://github.com/RobertCraigie/pyright-python
-    rev: v1.1.339
+    rev: v1.1.342
     hooks:
       - id: pyright

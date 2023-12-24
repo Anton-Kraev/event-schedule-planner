@@ -1,2 +1,1 @@
-pre-commit
 httpx~=0.26.0
