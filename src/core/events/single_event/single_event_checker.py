@@ -22,4 +22,4 @@ class SingleEventChecker(BaseEvent):
             if member_overlaps:
                 overlaps[member] = member_overlaps
 
-        return SingleEventCheckResult(not overlaps, overlaps)
+        return SingleEventCheckResult(not overlaps, overlaps, None)
