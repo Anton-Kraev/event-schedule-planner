@@ -44,6 +44,11 @@ class EventMember:
     async def schedule(self) -> List[CalendarItem]:
         """
         All calendars combined into one
+
+        Returns
+        -------
+        List[CalendarItem]
+            Reserved slots in all of calendars
         """
         return sum(
             [await calendar.get_reserved_slots() for calendar in self.calendars], []

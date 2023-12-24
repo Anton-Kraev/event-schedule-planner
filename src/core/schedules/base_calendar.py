@@ -16,9 +16,9 @@ class BaseCalendar[T](ABC):
         Type of the calendar owner required to receive the calendar
     owner_name : str
         Name of the calendar owner required to receive the calendar
-    reserved_slots : Optional[List[CalendarItem]]
-        A list of CalendarItems representing events or reservations that occupy time slots
-        in the calendar. Can be None if the calendar has not yet been downloaded once
+    reserved_slots : List[CalendarItem]
+        A list of CalendarItems representing events or reservations
+        that occupy time slots in the calendar
     """
 
     def __init__(self, owner_name: str, owner_type: MemberType):
@@ -38,8 +38,7 @@ class BaseCalendar[T](ABC):
 
     async def get_reserved_slots(self) -> List[CalendarItem]:
         """
-        Updates the calendar (occupied_slots)
-        by downloading or synchronizing it with a remote service
+        Download or synchronize calendar with a remote service
 
         Returns
         -------
