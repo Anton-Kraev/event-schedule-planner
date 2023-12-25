@@ -1,7 +1,8 @@
 from typing import List, Set
 
-from . import MemberType
-from ..schedules import CalendarItem, CalendarType
+from ..schedules import CalendarItem
+from ..schedules.timetable import TimetableCalendar
+from ..types import MemberType, CalendarType
 
 
 class EventMember:
@@ -35,9 +36,12 @@ class EventMember:
         """
         self.member_type = member_type
         self.name = name
-        self.calendars = [
-            calendar.value(name, member_type) for calendar in calendar_types
-        ]
+        calendars = []
+        for c_type in calendar_types:
+            match c_type:
+                case CalendarType.timetable:
+                    calendars.append(TimetableCalendar(name, member_type))
+        self.calendars = calendars
 
     @property
     async def schedule(self) -> List[CalendarItem]:

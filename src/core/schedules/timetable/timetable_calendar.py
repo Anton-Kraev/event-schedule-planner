@@ -2,16 +2,17 @@ from typing import List
 
 from httpx import AsyncClient, codes
 
-from config import TT_API_BASE_PATH
-from . import TimetableCalendarItem
-from .. import CalendarType, CalendarItem, BaseCalendar
-from ...members import MemberType
+from config import Settings
+from .timetable_calendar_item import TimetableCalendarItem
+from ..calendar_item import CalendarItem
+from ..base_calendar import BaseCalendar
+from ...types import CalendarType, MemberType
 
 
 class TimetableCalendar(BaseCalendar):
     async def _upload(self) -> List[TimetableCalendarItem]:
         events = []
-        async with AsyncClient(base_url=TT_API_BASE_PATH) as client:
+        async with AsyncClient(base_url=Settings().TT_API_URL) as client:
             match self.owner_type:
                 case MemberType.educator:
                     first_name, last_name, middle_name = self.owner_name.split(" ")
